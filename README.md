@@ -1,5 +1,11 @@
 # code-server-azure
 
+## About this fork
+Docker Hub: `sffxzzp/code-server-azure`
+Github Container Registry: `ghcr.io/sffxzzp/code-server-azure`
+
+## Original description
+
 Deploying code-server on Azure App Service. Can use [--link](https://github.com/cdr/code-server#cloud-program-%EF%B8%8F) or an Azure domain. This uses the [codercom/code-server](https://hub.docker.com/r/codercom/code-server) base image, so it will always use the latest version of code-server.
 
 ## This setup includes

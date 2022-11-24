@@ -1,9 +1,12 @@
-name: Publish to Docker Hub
+name: Publish
 on:
   push:
     branches:
       - main
+  repository_dispatch:
+    types: [build-on-demand]
   workflow_dispatch:
+
 jobs:
   push_to_registry:
     name: Push Docker image to Docker Hub
@@ -12,16 +15,20 @@ jobs:
       - name: Check out the repo
         uses: actions/checkout@v2
       - name: Login to DockerHub
-        uses: docker/login-action@v1 
+        uses: docker/login-action@v2.1.0
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-      - name: Build and push
+      - name: Build and push to Docker Hub
         id: docker_build
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v3.2.0
         with:
           push: true
-          tags: bencdr/code-server-azure:latest
-      -
-        name: Image digest
+          tags: sffxzzp/code-server-azure:latest
+      - name: Build and push to Github Container Registry
+        uses: pmorelli92/github-container-registry-build-push@2.0.0
+        with:
+          github-push-secret: ${{ secrets.GITHUB_TOKEN }}
+          docker-image-name: code-server-azure
+      - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
